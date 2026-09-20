@@ -132,12 +132,14 @@
       <div class="botones" id="botones">
 
         <button
+          id="btnSi"
           class="si"
           onclick="enviarRespuesta('SI')">
           💗 Sí, asistiré
         </button>
 
         <button
+          id="btnNo"
           class="no"
           onclick="enviarRespuesta('NO')">
           🤍 No podré asistir
@@ -152,7 +154,7 @@
   </div>
 
 
-  <!-- FORMULARIO OCULTO -->
+  <!-- FORMULARIO DE GOOGLE OCULTO -->
 
   <iframe
     name="formularioOculto"
@@ -180,14 +182,48 @@
 
   <script>
 
+    // ==================================================
+    // INVITADOS Y CÓDIGOS
+    // ==================================================
+
     const invitados = {
+
+      // INVITADOS INICIALES
+
       "AFL43W": "Miguel Santibañez",
       "EKTCC9": "Vanessa Santibáñez",
       "M23YVB": "Anita González",
       "WDBMAN": "Benjamin Rojas",
       "UD6DQ2": "Valentina Cavagnaro",
-      "7AP3CC": "Ruth Castellanos"
+      "7AP3CC": "Ruth Castellanos",
+
+
+      // NUEVOS INVITADOS
+
+      "4HKLT3": "Sebastiam Milanos",
+      "Z3XAJK": "Mónica",
+      "359WVN": "Franco Reyes",
+      "5YLQK2": "Michelle",
+      "KMGN58": "Isaías",
+      "N2AWZB": "Mauner",
+      "9BXZX8": "Daphne",
+      "6R3S7J": "Stefy",
+      "6E8GB8": "Paula",
+      "8CFS42": "Sophie",
+      "GUGPYK": "Antonella",
+      "LCTMLX": "Florencia",
+      "TREN94": "Paz",
+      "ZVHCJE": "Ethan",
+      "KYZTL2": "Yanara",
+      "ARXU2T": "Estefanía",
+      "26PZ78": "Polet"
+
     };
+
+
+    // ==================================================
+    // LEER CÓDIGO DESDE EL QR
+    // ==================================================
 
     const parametros =
       new URLSearchParams(window.location.search);
@@ -196,6 +232,7 @@
       (parametros.get("codigo") || "")
       .trim()
       .toUpperCase();
+
 
     const nombre =
       document.getElementById("nombre");
@@ -210,9 +247,14 @@
       document.getElementById("botones");
 
 
+    // ==================================================
+    // VALIDAR INVITACIÓN
+    // ==================================================
+
     if (codigo && invitados[codigo]) {
 
-      nombre.textContent = invitados[codigo];
+      nombre.textContent =
+        invitados[codigo];
 
     } else {
 
@@ -222,17 +264,28 @@
     }
 
 
+    // ==================================================
+    // ENVIAR CONFIRMACIÓN
+    // ==================================================
+
     function enviarRespuesta(respuesta) {
 
       if (!codigo || !invitados[codigo]) {
         return;
       }
 
-      document.getElementById("campoCodigo").value =
-        codigo;
 
-      document.getElementById("campoRespuesta").value =
-        respuesta;
+      document
+        .getElementById("campoCodigo")
+        .value = codigo;
+
+
+      document
+        .getElementById("campoRespuesta")
+        .value = respuesta;
+
+
+      // Desactivar botones para evitar doble clic
 
       const botonesLista =
         botones.querySelectorAll("button");
@@ -241,6 +294,8 @@
         boton.disabled = true;
       });
 
+
+      // Mostrar mensaje al invitado
 
       if (respuesta === "SI") {
 
@@ -259,7 +314,11 @@
       }
 
 
-      document.getElementById("rsvpForm").submit();
+      // Enviar respuesta al Google Form oculto
+
+      document
+        .getElementById("rsvpForm")
+        .submit();
 
     }
 
