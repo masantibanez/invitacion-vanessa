@@ -6,16 +6,15 @@
   <title>Mis 15 - Vanessa</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      padding: 20px 10px;
+      padding: 20px 10px 40px;
       background: #fff5fa;
       font-family: Arial, sans-serif;
       text-align: center;
+      color: #333;
     }
 
     .contenedor {
@@ -30,17 +29,68 @@
       height: auto;
       border-radius: 14px;
     }
+
+    .personal {
+      margin-top: 25px;
+      padding: 20px;
+      background: white;
+      border-radius: 14px;
+    }
+
+    .personal p {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+
+    #nombre {
+      margin: 0;
+      color: #d63384;
+      font-size: 26px;
+    }
+
+    .error {
+      color: #b00020;
+      font-weight: bold;
+    }
   </style>
 </head>
 
 <body>
 
   <div class="contenedor">
+
     <img
       class="invitacion"
       src="invitacion.jpg"
       alt="Invitación Mis 15 Vanessa">
+
+    <div class="personal" id="personal">
+      <p>Esta invitación es personal para:</p>
+      <h2 id="nombre"></h2>
+    </div>
+
   </div>
+
+  <script>
+    const invitados = {
+      "AFL43W": "Miguel Santibañez",
+      "EKTCC9": "Vanessa Ignacia Santibáñez Farías",
+      "M23YVB": "Anita González"
+    };
+
+    const parametros = new URLSearchParams(window.location.search);
+    const codigo = parametros.get("codigo");
+
+    const nombre = document.getElementById("nombre");
+    const personal = document.getElementById("personal");
+
+    if (codigo && invitados[codigo]) {
+      nombre.textContent = invitados[codigo];
+    } else {
+      personal.innerHTML =
+        '<p class="error">Esta invitación no es válida.</p>';
+    }
+  </script>
 
 </body>
 </html>
