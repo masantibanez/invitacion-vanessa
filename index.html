@@ -35,10 +35,10 @@
 
     .personal {
       margin-top: 22px;
-      padding: 22px 15px;
+      padding: 24px 16px;
       background: white;
       border-radius: 14px;
-      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 3px 15px rgba(0,0,0,0.08);
     }
 
     .personal p {
@@ -47,9 +47,50 @@
     }
 
     #nombre {
-      margin: 5px 0 0;
+      margin: 5px 0 22px;
       color: #d63384;
       font-size: 27px;
+    }
+
+    .pregunta {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 18px !important;
+    }
+
+    .botones {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 360px;
+      margin: auto;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 30px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .si {
+      background: #d63384;
+      color: white;
+    }
+
+    .no {
+      background: #f7d9e8;
+      color: #9d245f;
+    }
+
+    .mensaje {
+      margin-top: 18px;
+      font-size: 17px;
+      font-weight: bold;
+      color: #d63384;
     }
 
     .error {
@@ -71,8 +112,25 @@
     >
 
     <div class="personal" id="personal">
+
       <p>Esta invitación es personal para:</p>
+
       <h2 id="nombre"></h2>
+
+      <p class="pregunta">¿Confirmas tu asistencia?</p>
+
+      <div class="botones">
+        <button class="si" onclick="respuestaPrueba('SI')">
+          💗 Sí, asistiré
+        </button>
+
+        <button class="no" onclick="respuestaPrueba('NO')">
+          🤍 No podré asistir
+        </button>
+      </div>
+
+      <div id="mensaje" class="mensaje"></div>
+
     </div>
 
   </div>
@@ -105,6 +163,20 @@
 
       personal.innerHTML =
         '<p class="error">Esta invitación no es válida.</p>';
+
+    }
+
+    function respuestaPrueba(respuesta) {
+
+      const mensaje = document.getElementById("mensaje");
+
+      if (respuesta === "SI") {
+        mensaje.textContent =
+          "💗 ¡Gracias! Tu respuesta está lista para ser confirmada.";
+      } else {
+        mensaje.textContent =
+          "Gracias por avisarnos 🤍";
+      }
 
     }
 
