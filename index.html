@@ -76,6 +76,11 @@
       cursor: pointer;
     }
 
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
     .si {
       background: #d63384;
       color: white;
@@ -87,16 +92,21 @@
     }
 
     .mensaje {
-      margin-top: 18px;
+      margin-top: 20px;
       font-size: 17px;
       font-weight: bold;
       color: #d63384;
+      line-height: 1.4;
     }
 
     .error {
       color: #b00020;
       font-weight: bold;
       font-size: 18px;
+    }
+
+    #formularioOculto {
+      display: none;
     }
   </style>
 </head>
@@ -119,14 +129,20 @@
 
       <p class="pregunta">¿Confirmas tu asistencia?</p>
 
-      <div class="botones">
-        <button class="si" onclick="respuestaPrueba('SI')">
+      <div class="botones" id="botones">
+
+        <button
+          class="si"
+          onclick="enviarRespuesta('SI')">
           💗 Sí, asistiré
         </button>
 
-        <button class="no" onclick="respuestaPrueba('NO')">
+        <button
+          class="no"
+          onclick="enviarRespuesta('NO')">
           🤍 No podré asistir
         </button>
+
       </div>
 
       <div id="mensaje" class="mensaje"></div>
@@ -134,6 +150,33 @@
     </div>
 
   </div>
+
+
+  <!-- FORMULARIO OCULTO -->
+
+  <iframe
+    name="formularioOculto"
+    id="formularioOculto">
+  </iframe>
+
+  <form
+    id="rsvpForm"
+    action="https://docs.google.com/forms/d/e/1FAIpQLSdNOYnkNRQgnzKmWJZtbph1eb1iCWJJdHIMTABJsx2MC3_XCA/formResponse"
+    method="POST"
+    target="formularioOculto">
+
+    <input
+      type="hidden"
+      name="entry.1708082868"
+      id="campoCodigo">
+
+    <input
+      type="hidden"
+      name="entry.1615105669"
+      id="campoRespuesta">
+
+  </form>
+
 
   <script>
 
@@ -146,14 +189,26 @@
       "7AP3CC": "Ruth Castellanos"
     };
 
-    const parametros = new URLSearchParams(window.location.search);
+    const parametros =
+      new URLSearchParams(window.location.search);
 
-    const codigo = (parametros.get("codigo") || "")
+    const codigo =
+      (parametros.get("codigo") || "")
       .trim()
       .toUpperCase();
 
-    const nombre = document.getElementById("nombre");
-    const personal = document.getElementById("personal");
+    const nombre =
+      document.getElementById("nombre");
+
+    const personal =
+      document.getElementById("personal");
+
+    const mensaje =
+      document.getElementById("mensaje");
+
+    const botones =
+      document.getElementById("botones");
+
 
     if (codigo && invitados[codigo]) {
 
@@ -166,17 +221,45 @@
 
     }
 
-    function respuestaPrueba(respuesta) {
 
-      const mensaje = document.getElementById("mensaje");
+    function enviarRespuesta(respuesta) {
+
+      if (!codigo || !invitados[codigo]) {
+        return;
+      }
+
+      document.getElementById("campoCodigo").value =
+        codigo;
+
+      document.getElementById("campoRespuesta").value =
+        respuesta;
+
+      const botonesLista =
+        botones.querySelectorAll("button");
+
+      botonesLista.forEach(function(boton) {
+        boton.disabled = true;
+      });
+
 
       if (respuesta === "SI") {
-        mensaje.textContent =
-          "💗 ¡Gracias! Tu respuesta está lista para ser confirmada.";
+
+        mensaje.innerHTML =
+          "💗 ¡Muchas gracias, " +
+          invitados[codigo] +
+          "!<br>Tu asistencia ha sido confirmada.";
+
       } else {
-        mensaje.textContent =
-          "Gracias por avisarnos 🤍";
+
+        mensaje.innerHTML =
+          "🤍 Gracias por avisarnos, " +
+          invitados[codigo] +
+          ".<br>Registramos que no podrás asistir.";
+
       }
+
+
+      document.getElementById("rsvpForm").submit();
 
     }
 
