@@ -6,7 +6,9 @@
   <title>Mis 15 - Vanessa</title>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -31,26 +33,28 @@
     }
 
     .personal {
-      margin-top: 25px;
-      padding: 20px;
+      margin-top: 22px;
+      padding: 22px 15px;
       background: white;
       border-radius: 14px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.08);
     }
 
     .personal p {
-      margin: 0 0 6px;
+      margin: 0 0 8px;
       font-size: 17px;
     }
 
     #nombre {
-      margin: 0;
+      margin: 5px 0 0;
       color: #d63384;
-      font-size: 26px;
+      font-size: 27px;
     }
 
     .error {
       color: #b00020;
       font-weight: bold;
+      font-size: 18px;
     }
   </style>
 </head>
@@ -74,12 +78,12 @@
   <script>
     const invitados = {
       "AFL43W": "Miguel Santibañez",
-      "EKTCC9": "Vanessa Ignacia Santibáñez Farías",
+      "EKTCC9": "Vanessa Santibáñez",
       "M23YVB": "Anita González"
     };
 
     const parametros = new URLSearchParams(window.location.search);
-    const codigo = parametros.get("codigo");
+    const codigo = (parametros.get("codigo") || "").toUpperCase();
 
     const nombre = document.getElementById("nombre");
     const personal = document.getElementById("personal");
