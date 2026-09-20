@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Mis 15 - Vanessa</title>
 
   <style>
@@ -37,7 +38,7 @@
       padding: 22px 15px;
       background: white;
       border-radius: 14px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
     }
 
     .personal p {
@@ -66,7 +67,8 @@
     <img
       class="invitacion"
       src="invitacion.jpg"
-      alt="Invitación Mis 15 Vanessa">
+      alt="Invitación Mis 15 Vanessa"
+    >
 
     <div class="personal" id="personal">
       <p>Esta invitación es personal para:</p>
@@ -76,6 +78,7 @@
   </div>
 
   <script>
+
     const invitados = {
       "AFL43W": "Miguel Santibañez",
       "EKTCC9": "Vanessa Santibáñez",
@@ -86,17 +89,25 @@
     };
 
     const parametros = new URLSearchParams(window.location.search);
-    const codigo = (parametros.get("codigo") || "").toUpperCase();
+
+    const codigo = (parametros.get("codigo") || "")
+      .trim()
+      .toUpperCase();
 
     const nombre = document.getElementById("nombre");
     const personal = document.getElementById("personal");
 
     if (codigo && invitados[codigo]) {
+
       nombre.textContent = invitados[codigo];
+
     } else {
+
       personal.innerHTML =
         '<p class="error">Esta invitación no es válida.</p>';
+
     }
+
   </script>
 
 </body>
