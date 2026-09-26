@@ -1,728 +1,418 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Mis 15 Vanessa</title>
 
-
   <style>
-
     * {
       box-sizing: border-box;
     }
 
-
     body {
-
       margin: 0;
       padding: 0;
-
       background: #fff5fa;
-
-      font-family:
-        Arial,
-        sans-serif;
-
+      font-family: Arial, sans-serif;
       color: #444;
-
     }
-
 
     .contenedor {
-
       width: 100%;
       max-width: 650px;
-
       margin: 0 auto;
-
-      padding:
-        18px
-        14px
-        40px;
-
+      padding: 18px 14px 40px;
       text-align: center;
-
     }
-
 
     .invitacion {
-
       width: 100%;
-
       display: block;
-
       border-radius: 18px;
-
-      box-shadow:
-        0 5px 20px
-        rgba(0, 0, 0, 0.10);
-
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
     }
-
 
     .personalizacion {
-
-      margin:
-        22px 0 8px;
-
+      margin: 22px 0 8px;
       font-size: 15px;
-
       color: #888;
-
     }
-
 
     .nombre {
-
-      margin:
-        0 0 22px;
-
+      margin: 0 0 22px;
       font-size: 28px;
-
       color: #d63384;
-
       font-weight: bold;
-
     }
-
 
     .mensaje {
-
       font-size: 17px;
-
       line-height: 1.5;
-
-      margin:
-        0 auto 22px;
-
+      margin: 0 auto 22px;
       max-width: 500px;
-
     }
-
 
     .botones {
-
       display: flex;
-
       flex-direction: column;
-
       gap: 12px;
-
       margin-top: 20px;
-
     }
-
 
     button {
-
       width: 100%;
-
       border: none;
-
       border-radius: 30px;
-
-      padding:
-        16px 20px;
-
+      padding: 16px 20px;
       font-size: 17px;
-
       font-weight: bold;
-
       cursor: pointer;
-
+      transition: transform 0.15s ease;
     }
-
 
     button:active {
-
-      transform:
-        scale(0.98);
-
+      transform: scale(0.98);
     }
-
 
     .si {
-
       background: #d63384;
-
       color: white;
-
     }
-
 
     .no {
-
       background: white;
-
       color: #d63384;
-
-      border:
-        2px solid #d63384;
-
+      border: 2px solid #d63384;
     }
-
 
     button:disabled {
-
       opacity: 0.55;
-
       cursor: default;
-
     }
-
 
     .resultado {
-
       display: none;
-
       margin-top: 22px;
-
       padding: 18px;
-
       border-radius: 16px;
-
       background: white;
-
-      box-shadow:
-        0 3px 14px
-        rgba(0,0,0,0.07);
-
+      box-shadow: 0 3px 14px rgba(0,0,0,0.07);
       font-size: 17px;
-
       line-height: 1.5;
-
     }
-
 
     .error {
-
       margin-top: 25px;
-
       padding: 20px;
-
       border-radius: 16px;
-
       background: white;
-
       color: #777;
-
-      box-shadow:
-        0 3px 14px
-        rgba(0,0,0,0.07);
-
+      box-shadow: 0 3px 14px rgba(0,0,0,0.07);
     }
-
 
     .firma {
-
       margin-top: 30px;
-
       color: #aaa;
-
       font-size: 12px;
-
     }
-
   </style>
-
 </head>
-
 
 <body>
 
+  <div class="contenedor">
 
-<div class="contenedor">
+    <!-- INVITACIÓN ORIGINAL -->
+    <img
+      src="invitacion.jpg"
+      alt="Invitación Mis 15 Vanessa"
+      class="invitacion"
+    >
+
+    <!-- CONTENIDO RSVP -->
+    <div id="contenido" style="display:none;">
+
+      <div class="personalizacion">
+        Esta invitación es especialmente para
+      </div>
+
+      <div class="nombre" id="nombreInvitado"></div>
+
+      <div class="mensaje">
+        Nos encantaría contar contigo en este momento tan especial.
+        Por favor, confirma tu asistencia.
+      </div>
+
+      <div class="botones">
+
+        <button
+          id="btnSi"
+          class="si"
+          onclick="enviarRespuesta('SI')"
+        >
+          💗 Sí, asistiré
+        </button>
+
+        <button
+          id="btnNo"
+          class="no"
+          onclick="enviarRespuesta('NO')"
+        >
+          🤍 No podré asistir
+        </button>
+
+      </div>
+
+      <div
+        id="resultado"
+        class="resultado">
+      </div>
+
+    </div>
 
 
-  <!-- IMAGEN DE LA INVITACIÓN -->
+    <!-- CÓDIGO INVÁLIDO -->
 
-  <img
-    src="invitacion.jpg"
-    alt="Invitación Mis 15 Vanessa"
-    class="invitacion"
-  >
+    <div
+      id="error"
+      class="error"
+      style="display:none;"
+    >
+      Esta invitación no es válida o el código no fue reconocido.
+    </div>
 
 
+    <div class="firma">
+      Mis 15 — Vanessa 🎀
+    </div>
 
-  <!-- RSVP -->
+  </div>
 
-  <div
-    id="contenido"
+
+  <!-- FORMULARIO OCULTO -->
+
+  <iframe
+    name="formularioOculto"
+    style="display:none;">
+  </iframe>
+
+
+  <form
+    id="formRSVP"
+    action="https://docs.google.com/forms/d/e/1FAIpQLSdNOYnkNRQgnzKmWJZtbph1eb1iCWJJdHIMTABJsx2MC3_XCA/formResponse"
+    method="POST"
+    target="formularioOculto"
     style="display:none;"
   >
 
+    <input
+      type="hidden"
+      name="entry.1708082868"
+      id="codigoForm"
+    >
 
-    <div class="personalizacion">
+    <input
+      type="hidden"
+      name="entry.1615105669"
+      id="respuestaForm"
+    >
 
-      Esta invitación es especialmente para
+  </form>
 
-    </div>
 
+  <script>
 
-    <div
-      class="nombre"
-      id="nombreInvitado"
-    ></div>
+    // ==================================================
+    // INVITADOS
+    // ==================================================
 
+    const invitados = {
 
-    <div class="mensaje">
+      "AFL43W": "Miguel Santibañez",
 
-      Nos encantaría contar contigo
-      en este momento tan especial.
+      "EKTCC9": "Vanessa Santibáñez",
 
-      <br><br>
+      "M23YVB": "Anita González",
 
-      Por favor, confirma tu asistencia.
+      "WDBMAN": "Benjamin Rojas",
 
-    </div>
+      "UD6DQ2": "Valentina Cavagnaro",
 
+      "7AP3CC": "Ruth Castellanos",
 
+      "4HKLT3": "Sebastiam Milanos",
 
-    <div class="botones">
+      "Z3XAJK": "Mónica",
 
+      "359WVN": "Franco Reyes",
 
-      <button
-        id="btnSi"
-        class="si"
-        onclick="enviarRespuesta('SI')"
-      >
+      "5YLQK2": "Michelle",
 
-        💗 Sí, asistiré
+      "KMGN58": "Isaías",
 
-      </button>
+      "N2AWZB": "Mauner",
 
+      "9BXZX8": "Daphne",
 
+      "6R3S7J": "Stefy",
 
-      <button
-        id="btnNo"
-        class="no"
-        onclick="enviarRespuesta('NO')"
-      >
+      "6E8GB8": "Paula",
 
-        🤍 No podré asistir
+      "8CFS42": "Sophie",
 
-      </button>
+      "GUGPYK": "Antonella",
 
+      "LCTMLX": "Florencia",
 
-    </div>
+      "TREN94": "Paz",
 
+      "ZVHCJE": "Ethan",
 
+      "KYZTL2": "Yanara",
 
-    <div
-      id="resultado"
-      class="resultado"
-    ></div>
+      "ARXU2T": "Estefanía",
 
+      "26PZ78": "Polet",
 
-  </div>
+      // NUEVA INVITADA
+      "VP5RVF": "Emilia"
 
+    };
 
 
-  <!-- ERROR -->
+    // ==================================================
+    // LEER CÓDIGO
+    // ==================================================
 
-  <div
-    id="error"
-    class="error"
-    style="display:none;"
-  >
+    const parametros =
+      new URLSearchParams(
+        window.location.search
+      );
 
-    Esta invitación no es válida
-    o el código no fue reconocido.
 
-  </div>
+    const codigo =
+      (parametros.get("codigo") || "")
+        .trim()
+        .toUpperCase();
 
 
+    const contenido =
+      document.getElementById("contenido");
 
-  <div class="firma">
 
-    Mis 15 — Vanessa 🎀
+    const error =
+      document.getElementById("error");
 
-  </div>
 
+    // ==================================================
+    // VALIDAR INVITACIÓN
+    // ==================================================
 
-</div>
+    if (
+      codigo &&
+      invitados[codigo]
+    ) {
 
+      document
+        .getElementById("nombreInvitado")
+        .textContent =
+        invitados[codigo];
 
 
-<!-- ================================================= -->
-<!-- FORMULARIO GOOGLE OCULTO -->
-<!-- ================================================= -->
+      document
+        .getElementById("codigoForm")
+        .value =
+        codigo;
 
 
-<iframe
-  name="formularioOculto"
-  style="display:none;"
-></iframe>
+      contenido.style.display =
+        "block";
 
+    }
 
+    else {
 
-<form
+      error.style.display =
+        "block";
 
-  id="formRSVP"
+    }
 
-  action="https://docs.google.com/forms/d/e/1FAIpQLSdNOYnkNRQgnzKmWJZtbph1eb1iCWJJdHIMTABJsx2MC3_XCA/formResponse"
 
-  method="POST"
+    // ==================================================
+    // ENVIAR RESPUESTA
+    // ==================================================
 
-  target="formularioOculto"
+    function enviarRespuesta(respuesta) {
 
-  style="display:none;"
+      if (!codigo || !invitados[codigo]) {
+        return;
+      }
 
->
 
+      // Evitar doble clic
 
-  <input
+      document
+        .getElementById("btnSi")
+        .disabled = true;
 
-    type="hidden"
 
-    name="entry.1708082868"
+      document
+        .getElementById("btnNo")
+        .disabled = true;
 
-    id="codigoForm"
 
-  >
+      // Preparar formulario
 
+      document
+        .getElementById("codigoForm")
+        .value =
+        codigo;
 
-  <input
 
-    type="hidden"
+      document
+        .getElementById("respuestaForm")
+        .value =
+        respuesta;
 
-    name="entry.1615105669"
 
-    id="respuestaForm"
+      // Mostrar mensaje
 
-  >
+      const resultado =
+        document.getElementById("resultado");
 
 
-</form>
+      resultado.style.display =
+        "block";
 
 
+      if (respuesta === "SI") {
 
-<script>
+        resultado.innerHTML =
+          "💗 <strong>¡Confirmación recibida!</strong><br><br>" +
+          "Nos alegra mucho que puedas acompañar a Vanessa en este día tan especial.";
 
+      }
 
-// ======================================================
-// LISTA ACTUAL DE INVITADOS
-// ======================================================
+      else {
 
+        resultado.innerHTML =
+          "🤍 <strong>Respuesta recibida.</strong><br><br>" +
+          "Gracias por avisarnos. Te tendremos presente en este momento tan especial.";
 
-const invitados = {
+      }
 
 
-  "AFL43W":
-    "Miguel Santibañez",
+      // Enviar al Google Form
 
+      document
+        .getElementById("formRSVP")
+        .submit();
 
-  "EKTCC9":
-    "Vanessa Santibáñez",
+    }
 
-
-  "M23YVB":
-    "Anita González",
-
-
-  "WDBMAN":
-    "Benjamin Rojas",
-
-
-  "UD6DQ2":
-    "Valentina Cavagnaro",
-
-
-  "4HKLT3":
-    "Sebastiam Milanos",
-
-
-  "359WVN":
-    "Franco Reyes",
-
-
-  "5YLQK2":
-    "Michelle",
-
-
-  "KMGN58":
-    "Isaías",
-
-
-  "N2AWZB":
-    "Mauner",
-
-
-  "9BXZX8":
-    "Daphne",
-
-
-  "6R3S7J":
-    "Stefy",
-
-
-  "6E8GB8":
-    "Paula",
-
-
-  "8CFS42":
-    "Sophie",
-
-
-  "GUGPYK":
-    "Antonella",
-
-
-  "TREN94":
-    "Paz",
-
-
-  "ZVHCJE":
-    "Ethan",
-
-
-  "KYZTL2":
-    "Yanara",
-
-
-  "ARXU2T":
-    "Estefanía",
-
-
-  "26PZ78":
-    "Polet",
-
-
-  "VP5RVF":
-    "Emilia",
-
-
-  "MSAJKH":
-    "Matías",
-
-
-  "XCDNDA":
-    "Pedro",
-
-
-  "RNX55D":
-    "Olivia"
-
-
-};
-
-
-
-// ======================================================
-// OBTENER CÓDIGO DESDE LA URL
-// ======================================================
-
-
-const parametros =
-  new URLSearchParams(
-    window.location.search
-  );
-
-
-const codigo =
-  (parametros.get("codigo") || "")
-
-    .trim()
-
-    .toUpperCase();
-
-
-
-const contenido =
-  document.getElementById(
-    "contenido"
-  );
-
-
-const error =
-  document.getElementById(
-    "error"
-  );
-
-
-
-// ======================================================
-// VALIDAR INVITADO
-// ======================================================
-
-
-if (
-  codigo &&
-  invitados[codigo]
-) {
-
-
-  document
-    .getElementById(
-      "nombreInvitado"
-    )
-    .textContent =
-      invitados[codigo];
-
-
-
-  document
-    .getElementById(
-      "codigoForm"
-    )
-    .value =
-      codigo;
-
-
-
-  contenido.style.display =
-    "block";
-
-
-}
-
-else {
-
-
-  error.style.display =
-    "block";
-
-
-}
-
-
-
-// ======================================================
-// ENVIAR RESPUESTA
-// ======================================================
-
-
-function enviarRespuesta(
-  respuesta
-) {
-
-
-  if (
-    !codigo ||
-    !invitados[codigo]
-  ) {
-
-    return;
-
-  }
-
-
-
-  // EVITAR DOBLE CLIC
-
-
-  document
-    .getElementById(
-      "btnSi"
-    )
-    .disabled =
-      true;
-
-
-
-  document
-    .getElementById(
-      "btnNo"
-    )
-    .disabled =
-      true;
-
-
-
-  // CÓDIGO
-
-
-  document
-    .getElementById(
-      "codigoForm"
-    )
-    .value =
-      codigo;
-
-
-
-  // RESPUESTA
-
-
-  document
-    .getElementById(
-      "respuestaForm"
-    )
-    .value =
-      respuesta;
-
-
-
-  // MENSAJE
-
-
-  const resultado =
-    document.getElementById(
-      "resultado"
-    );
-
-
-  resultado.style.display =
-    "block";
-
-
-
-  if (
-    respuesta === "SI"
-  ) {
-
-
-    resultado.innerHTML =
-
-      "💗 <strong>¡Confirmación recibida!</strong>" +
-
-      "<br><br>" +
-
-      "Nos alegra mucho que puedas acompañar a Vanessa en este día tan especial.";
-
-
-  }
-
-  else {
-
-
-    resultado.innerHTML =
-
-      "🤍 <strong>Respuesta recibida.</strong>" +
-
-      "<br><br>" +
-
-      "Gracias por avisarnos. Te tendremos presente en este momento tan especial.";
-
-
-  }
-
-
-
-  // ENVIAR AL GOOGLE FORM
-
-
-  document
-    .getElementById(
-      "formRSVP"
-    )
-    .submit();
-
-
-}
-
-
-</script>
-
+  </script>
 
 </body>
-
 </html>
