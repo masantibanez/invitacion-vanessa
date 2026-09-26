@@ -174,7 +174,6 @@
 
 
     <!-- CÓDIGO INVÁLIDO -->
-
     <div
       id="error"
       class="error"
@@ -192,7 +191,6 @@
 
 
   <!-- FORMULARIO OCULTO -->
-
   <iframe
     name="formularioOculto"
     style="display:none;">
@@ -225,7 +223,7 @@
   <script>
 
     // ==================================================
-    // INVITADOS
+    // LISTA ACTUALIZADA DE INVITADOS
     // ==================================================
 
     const invitados = {
@@ -240,11 +238,7 @@
 
       "UD6DQ2": "Valentina Cavagnaro",
 
-      "7AP3CC": "Ruth Castellanos",
-
       "4HKLT3": "Sebastiam Milanos",
-
-      "Z3XAJK": "Mónica",
 
       "359WVN": "Franco Reyes",
 
@@ -264,8 +258,6 @@
 
       "GUGPYK": "Antonella",
 
-      "LCTMLX": "Florencia",
-
       "TREN94": "Paz",
 
       "ZVHCJE": "Ethan",
@@ -276,14 +268,19 @@
 
       "26PZ78": "Polet",
 
-      // NUEVA INVITADA
-      "VP5RVF": "Emilia"
+      "VP5RVF": "Emilia",
+
+      "MSAJKH": "Matías",
+
+      "XCDNDA": "Pedro",
+
+      "RNX55D": "Olivia"
 
     };
 
 
     // ==================================================
-    // LEER CÓDIGO
+    // LEER CÓDIGO DESDE LA URL
     // ==================================================
 
     const parametros =
@@ -352,7 +349,6 @@
 
 
       // Evitar doble clic
-
       document
         .getElementById("btnSi")
         .disabled = true;
@@ -364,7 +360,6 @@
 
 
       // Preparar formulario
-
       document
         .getElementById("codigoForm")
         .value =
@@ -378,7 +373,6 @@
 
 
       // Mostrar mensaje
-
       const resultado =
         document.getElementById("resultado");
 
@@ -404,8 +398,7 @@
       }
 
 
-      // Enviar al Google Form
-
+      // Enviar respuesta al Google Form
       document
         .getElementById("formRSVP")
         .submit();
